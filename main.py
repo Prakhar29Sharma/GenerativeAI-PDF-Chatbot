@@ -100,6 +100,11 @@ def format_response(response_text):
     # Add more formatting rules if needed
     return formatted_response
 
+# Root route
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the PDF Q&A API"}
+
 # Routes
 @app.post("/upload-pdf/")
 async def upload_pdf(file: UploadFile = File(...)):
