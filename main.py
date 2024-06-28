@@ -1,6 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 import os
@@ -31,9 +30,6 @@ collection = db["documents"]
 # Configure Gemini Langchain API
 genai.configure(api_key=os.getenv("GEMINI_LANGCHAIN_API_KEY"))
 model = genai.GenerativeModel('gemini-1.5-flash')
-
-# Serve static files like favicon.ico
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Models
 class PDFDocument(BaseModel):
