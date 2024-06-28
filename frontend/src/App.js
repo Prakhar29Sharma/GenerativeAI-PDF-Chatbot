@@ -20,7 +20,7 @@ const App = () => {
     formData.append('file', pdfFile);
 
     try {
-      const res = await axios.post('http://localhost:8000/upload-pdf/', formData);
+      const res = await axios.post('https://generativeai-pdf-chatbot.onrender.com/upload-pdf/', formData);
       alert('PDF uploaded and processed successfully.');
       setMessages([...messages, { text: 'PDF uploaded and processed successfully.', sender: 'system' }]);
     } catch (error) {
@@ -35,7 +35,7 @@ const App = () => {
 
   const handleAskQuestion = async () => {
     try {
-      const res = await axios.post('http://localhost:8000/ask-question/', { question });
+      const res = await axios.post('https://generativeai-pdf-chatbot.onrender.com/ask-question/', { question });
       setMessages([...messages, { text: question, sender: 'user' }, { text: res.data.output_text, sender: 'bot' }]);
       setQuestion('');
     } catch (error) {
