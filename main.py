@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -16,9 +16,9 @@ app = FastAPI()
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://generativeai-pdf-chatbot.onrender.com"],  # Adjust to your frontend URL
+    allow_origins=["https://your-frontend-domain.com"],  # Replace with your actual frontend URL
     allow_credentials=True,
-    allow_methods=["POST"],  # Adjust as per your API requirements (POST method for file upload and question)
+    allow_methods=["GET", "POST", "OPTIONS"],  # Include OPTIONS method if needed
     allow_headers=["*"],
 )
 
@@ -26,7 +26,7 @@ app.add_middleware(
 app.mount("/", StaticFiles(directory="frontend/build", html=True), name="static")
 
 # MongoDB connection
-mongo_uri = os.getenv("MONGODB_URI")  # Replace with your MongoDB URI
+mongo_uri = os.getenv("MONGODB_URI")
 client = AsyncIOMotorClient(mongo_uri)
 db = client["pdf_qa_db"]
 collection = db["documents"]
@@ -135,6 +135,11 @@ async def ask_question(question_data: Question):
     except Exception as e:
         logging.error(f"Unexpected error: {str(e)}")
         return {"error": f"Unexpected error: {str(e)}"}
+
+@app.options("/")
+def options_handler(response: Response):
+    response.headers["Allow"] = "GET, POST, OPTIONS"
+    return response
 
 if __name__ == "__main__":
     import uvicorn
