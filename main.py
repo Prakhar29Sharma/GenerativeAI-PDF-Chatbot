@@ -16,7 +16,7 @@ app = FastAPI()
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust as per your frontend URL in production
+    allow_origins=["https://generativeai-pdf-chatbot.onrender.com"],  # Adjust as per your frontend URL in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
