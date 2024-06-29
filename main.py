@@ -105,7 +105,7 @@ def format_response(response_text):
     return formatted_response
 
 # Routes
-@app.post("/upload-pdf/")
+@app.post("https://generativeai-pdf-chatbot.onrender.com/upload-pdf/")
 async def upload_pdf(file: UploadFile = File(...)):
     try:
         filename, pdf_text = await save_pdf_to_db(file)
@@ -114,7 +114,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         logging.error(f"Failed to process PDF: {str(e)}")
         return {"error": f"Failed to process PDF: {str(e)}"}
 
-@app.post("/ask-question/")
+@app.post("https://generativeai-pdf-chatbot.onrender.com/ask-question/")
 async def ask_question(question_data: Question):
     try:
         question = question_data.question

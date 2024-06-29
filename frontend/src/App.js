@@ -19,7 +19,11 @@ const App = () => {
     formData.append('file', pdfFile);
 
     try {
-      const res = await axios.post('https://generativeai-pdf-chatbot.onrender.com/upload-pdf/', formData);
+      const res = await axios.post('https://generativeai-pdf-chatbot.onrender.com/upload-pdf/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       alert('PDF uploaded and processed successfully.');
       setMessages([...messages, { text: 'PDF uploaded and processed successfully.', sender: 'system' }]);
     } catch (error) {
@@ -46,7 +50,7 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="header">
-      <img src="./logo.png" alt="Logo" className="logo" />  
+        <img src="./logo.png" alt="Logo" className="logo" />
         <Upload handlePdfUpload={handlePdfUpload} handlePdfSubmit={handlePdfSubmit} />
       </div>
       <ChatBox messages={messages} />
