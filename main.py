@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles  # Import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 import os
@@ -17,9 +18,12 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Adjust as per your frontend URL in production
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Serve static files from the React build directory
+app.mount("/", StaticFiles(directory="frontend/build", html=True), name="static")
 
 # MongoDB connection
 mongo_uri = os.getenv("MONGODB_URI")
@@ -99,8 +103,6 @@ def format_response(response_text):
     formatted_response = response_text.replace("*", "")
     # Add more formatting rules if needed
     return formatted_response
-
-# Root route
 
 # Routes
 @app.post("/upload-pdf/")
