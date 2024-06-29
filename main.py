@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles  # Import StaticFiles
+from fastapi.staticfiles import StaticFiles
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel
 import os
@@ -16,9 +16,9 @@ app = FastAPI()
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://generativeai-pdf-chatbot.onrender.com"],  # Adjust as per your frontend URL in production
+    allow_origins=["https://generativeai-pdf-chatbot.onrender.com"],  # Adjust to your frontend URL
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST"],  # Adjust as per your API requirements (POST method for file upload and question)
     allow_headers=["*"],
 )
 
@@ -26,7 +26,7 @@ app.add_middleware(
 app.mount("/", StaticFiles(directory="frontend/build", html=True), name="static")
 
 # MongoDB connection
-mongo_uri = os.getenv("MONGODB_URI")
+mongo_uri = os.getenv("MONGODB_URI")  # Replace with your MongoDB URI
 client = AsyncIOMotorClient(mongo_uri)
 db = client["pdf_qa_db"]
 collection = db["documents"]

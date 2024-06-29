@@ -58,7 +58,7 @@ const App = () => {
         question={question}
         handleQuestionChange={handleQuestionChange}
         handleAskQuestion={handleAskQuestion}
-      />  
+      />
     </div>
   );
 };
