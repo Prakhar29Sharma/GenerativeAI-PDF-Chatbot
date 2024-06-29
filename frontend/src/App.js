@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from './axiosInstance'; // Import your Axios instance
 import './App.css'; // Import your custom CSS file
 import Upload from './components/Upload';
 import ChatInput from './components/ChatInput';
@@ -19,7 +19,7 @@ const App = () => {
     formData.append('file', pdfFile);
 
     try {
-      const res = await axios.post('https://generativeai-pdf-chatbot.onrender.com/upload-pdf/', formData, {
+      const res = await axiosInstance.post('/upload-pdf/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -38,7 +38,7 @@ const App = () => {
 
   const handleAskQuestion = async () => {
     try {
-      const res = await axios.post('https://generativeai-pdf-chatbot.onrender.com/ask-question/', { question });
+      const res = await axiosInstance.post('/ask-question/', { question });
       setMessages([...messages, { text: question, sender: 'user' }, { text: res.data.output_text, sender: 'bot' }]);
       setQuestion('');
     } catch (error) {
