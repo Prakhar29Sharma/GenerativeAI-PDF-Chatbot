@@ -107,7 +107,12 @@ def format_response(response_text):
 # Routes
 @app.post("/upload-pdf/")
 async def upload_pdf(file: UploadFile = File(...)):
-    return {"message": "Simple endpoint test."}
+    try:
+        filename, pdf_text = await save_pdf_to_db(file)
+        return {"message": "PDF uploaded and processed successfully.", "filename": filename, "pdf_text": pdf_text}
+    except Exception as e:
+        logging.error(f"Failed to process PDF: {str(e)}")
+        return {"error": f"Failed to process PDF: {str(e)}"}
 
 @app.post("/ask-question/")
 async def ask_question(question_data: Question):
