@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 # Serve static files from the React build directory
-app.mount("/", StaticFiles(directory="frontend/build", html=True), name="static")
+# app.mount("/", StaticFiles(directory="frontend/build", html=True), name="static")
 
 # MongoDB connection
 mongo_uri = os.getenv("MONGODB_URI")
